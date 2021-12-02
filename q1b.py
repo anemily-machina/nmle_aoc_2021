@@ -1,6 +1,6 @@
 import io
 
-fname = "p1A.txt"
+fname = "input1.txt"
 with io.open(fname, 'r', encoding='utf-8') as input_stream: 
 	count = 0
 	
