@@ -1,3 +1,5 @@
+import io
+
 def binary2int(binary):
 	mul = 1
 	value = 0
