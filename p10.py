@@ -32,7 +32,6 @@ def process_line(line):
 				return b
 
 	#if we are here the stack (possibly empty) is what is needed to complete the line
-	#empty means the line is fine
 	return stack
 
 
