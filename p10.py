@@ -31,7 +31,7 @@ def process_line(line):
 			if b != close:
 				return b
 
-	#if we are here the stack (possibly empty) is what is needed to complete the line
+	#if we are here the stack is what is needed to complete the line
 	return stack
 
 
