@@ -33,12 +33,12 @@ def simulate_insertions(poly_hist, rules, num_insertions):
 
 	for _ in range(num_insertions):
 
-		poly_hist = do_insertions(poly_hist, rules)
+		poly_hist = do_insertion(poly_hist, rules)
 
 	return poly_hist
 
 
-def do_insertions(poly_hist, rules):
+def do_insertion(poly_hist, rules):
 	
 	new_poly_hist = {}
 
