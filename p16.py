@@ -22,7 +22,6 @@ class Packet():
 			return total_version
 
 		for subpacket in self.subpackets:
-
 			total_version += subpacket.sum_versions()
 
 		return total_version
@@ -37,7 +36,6 @@ class Packet():
 		subpacket_values = []
 
 		for subpacket in self.subpackets:
-
 			subpacket_values.append(subpacket.do_calculation())
 
 		if self.typeID == 0:
@@ -92,6 +90,7 @@ class Packet():
 		if lengthTypeID == '0':
 			number_bits_subpacket = int(bininput[7:22], 2)
 			packet.length = 22 #22 for version and type ID and length type id +bits length of subpackets
+		#case where we have an exact number of packets
 		else:
 			number_subpackets = int(bininput[7:18], 2)
 			packet.length = 18 #18 for version and type ID and length type id +bits number of subpackets
@@ -105,8 +104,7 @@ class Packet():
 			packet.length += subpacket.length
 
 			number_bits_subpacket -= subpacket.length
-			number_subpackets -= 1
-			
+			number_subpackets -= 1			
 
 		return packet
 
