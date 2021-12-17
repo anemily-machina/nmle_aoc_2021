@@ -67,8 +67,8 @@ class Packet():
 
 		packet = Packet()	
 
-		packet.version = Packet._GetVersion(bininput)	
-		packet.typeID = Packet._GetTypeID(bininput)
+		packet.version = int(bininput[0:3],2)
+		packet.typeID = int(bininput[3:6],2)
 
 
 		#base case
@@ -83,17 +83,17 @@ class Packet():
 		#recursion cases
 		packet.subpackets = []
 
-		lengthTypeID = Packet._GetLengthTypeID(bininput)
+		lengthTypeID = bininput[6]
 
 		number_bits_subpacket = 0
 		number_subpackets = 0
 
 		#case where subpackets have an exact number of bits
 		if lengthTypeID == '0':
-			number_bits_subpacket = Packet._GetSubPacketBits(bininput)
+			number_bits_subpacket = int(bininput[7:22], 2)
 			packet.length = 22 #22 for version and type ID and length type id +bits length of subpackets
 		else:
-			number_subpackets = Packet._GetSubPacketNumber(bininput)
+			number_subpackets = int(bininput[7:18], 2)
 			packet.length = 18 #18 for version and type ID and length type id +bits number of subpackets
 
 		#generate subpackets until we run out of bits to check or have generated the correct number of packets		
@@ -109,30 +109,6 @@ class Packet():
 			
 
 		return packet
-
-
-	@classmethod
-	def _GetVersion(cls, bininput):
-
-		bin_version = bininput[0:3]
-		version = int(bin_version,2)
-
-		return version
-
-
-	@classmethod
-	def _GetTypeID(cls, bininput):
-
-		bin_typeID = bininput[3:6]
-		typeID = int(bin_typeID,2)
-		
-		return typeID
-
-
-	@classmethod
-	def _GetLengthTypeID(cls, bininput):
-
-		return bininput[6]
 
 
 	@classmethod
@@ -155,30 +131,20 @@ class Packet():
 		return value, number_bits_value
 
 
-	@classmethod 
-	def _GetSubPacketBits(cls, bininput):
-
-		bin_number_subpacket_bits = bininput[7:22]
-		number_subpacket_bits = int(bin_number_subpacket_bits, 2)
-
-		return number_subpacket_bits
-
-
-	@classmethod
-	def _GetSubPacketNumber(cls, bininput):
-
-		bin_number_subpackets = bininput[7:18]
-		number_subpackets = int(bin_number_subpackets, 2)
-
-		return number_subpackets
-
-
 def load_stuff(fname, part=1):
 	with io.open(fname, 'r', encoding='utf-8') as input_stream: 
 
 		hexstring = input_stream.readline().strip()
 
 		binstring = bin(int(hexstring, 16))[2:]
+		
+		#add leading 0's
+		i=0
+		while binstring[i] == '0':
+			binstring += '0000'
+			i+=1
+
+		#add 0's to make byte aligned
 		while len(binstring) % 4 != 0:
 			binstring = '0' + binstring
 
