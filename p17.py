@@ -63,7 +63,7 @@ def find_all_good_velocity(p1,p2,gravity=False):
 
 	#if we were calculated falling (gravity only on if falling)
 	if gravity:
-		#good down speed of -v has corresponding speed (v-1)
+		#good down speed of -v has corresponding velocity (v-1)
 		up_good_velocity = [v-1 for v in good_velocity] #what about -1? 0 only in list if 1 is
 
 		#need to flip the other velocities to negative 
